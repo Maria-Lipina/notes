@@ -1,13 +1,18 @@
-class Worker(object):
-    name = ""
-    salary = 0
+import time
 
-    def __init__(self, name, salary) -> None:
-        self.name = name
-        self.salary = salary
+class Note(object):
+    id = 0
+    head = "Заголовок заметки"
+    body = "Тело заметки"
+    last_edited = time.time() #Дата и время создания или последнего редактирования
 
-    def method(self):
-        print(f'{self.name} && {self.salary}')
+    # def __init__(self) -> None:
+        #Здесь должны присваиваться значения атрибутам
 
-    def __del__(self):
-        print('удаляется объект {} класса Worker'.format(self.name))
+
+    # def __del__(self):
+    #     print('удаляется объект {} класса Worker'.format(self.name))
+
+# У питона свой toString нашелся!
+    # def __str__(self):
+    #     return 'Номер[' + str(self.id) + ']'

@@ -1,21 +1,28 @@
 import ui
 import model
 
-class Control(object):
-    def run():
-        ui.View.show('Введите параметры рабочего')
+"""Введите одну из доступных команд: add, observe, change, delete:
+add - добавить заметку
+observe - посмотреть список заметок в памяти
+change - отредактировать заметку
+delete - удалить заметку
+exit - выйти из приложения
+manual - руководство по значению команд
+save - сохранить заметку в файл-базу
+read - прочитать заметку под указанным номером
+"""
 
-        w = model.Worker(input(), int(input()))
-        
-        ui.View.show('Введите одну из доступных команд: exit, name, salary')
+class Control(object):
+    def run():      
         working = True
         while working:
+            ui.View.show('Введите одну из доступных команд: add, observe, change, delete, exit, manual, save, read')
             command = input()
             if command == 'exit':
-                del w
-                print('Bye!')
+                print('Bye!') #потом это все должно переноситься в методы класса ui
                 working = False
-            if command == 'name':
-                ui.View.show(w.name)
+            if command == 'add':
+                request = ['Введите заголовок']
+                answers = ['Введите текст и нажмите CTRL+D']
             if command == 'salary':
                 ui.View.show(w.salary)
