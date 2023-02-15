@@ -1,7 +1,5 @@
 import ui
 import model
-import time
-import traceback
 
 """Введите одну из доступных команд: add, observe, change, delete:
 add - добавить заметку
@@ -17,40 +15,37 @@ read - прочитать заметку под указанным номеро�
 class Control(object):
 
     def run(file_name: str):
+
         notes = model.NotesHandler(file_name)
-        notes_cache = []   
+        notes.read()
+        view = ui.View()
         working = True
         is_saved = True
-        
-        # приветствие и: всего в записной книжке len() заметок
+        view.hello()
+
         while working:
-            
-            command = ui.View.get_command()
+            command = view.get_command()
 
             if command == 'exit':
                 working = False
-                ui.View.bye()
                 try:
-                    if not is_saved and ui.View.get_confirm(): 
+                    if not is_saved and view.get_confirm(): 
                         notes.save()
+                        is_saved = True
                 except:
-                    ui.View.get_confirm()
+                    view.get_confirm()
+                view.report()
+                view.bye()
 
             if command == 'add':
-                
-                notes.add()
+                view.report(
+                    notes.add(view.get_new_note())
+                )
+                is_saved = False
 
             if command == 'read':
-                print(notes_cache[int(input("Введите номер заметки: "))-1])
+                view.show_note(notes.notes)
 
             if command == 'save':
-                try:
-                    index = int(input("Введите номер заметки: "))
-                    with open(notes_base, 'a') as notes:
-                        print(
-                            f"{notes_cache[index-1].id};{notes_cache[index-1].head};{notes_cache[index-1].body};{time.strftime('%Y.%m.%d %H:%M', time.localtime(notes_cache[index-1].last_modified))}", 
-                            file=notes
-                            )
-                except:
-                    traceback.print_exc()
-                    print("Congratulations, you have processed exception in Python")
+                view.report(notes.save())
+                

@@ -1,23 +1,33 @@
 class View(object):
-    @staticmethod
-    def show(text: str):
-        print(f'{text}')
+
+    def hello(self, notes: list):
+        print(f"Hello! There are {len(notes)} notes in your notebook")  
     
-    @staticmethod
-    def get_command():
+    
+    def get_command(self):
         print('Введите одну из доступных команд: add, observe, change, delete, exit, manual, save, read')
         return input()
 
-    @staticmethod
-    def get_confirm():
+    
+    def get_confirm(self):
         print('Сохранить изменения в записной книжке? (y\\n)')
         if input() == 'y': return True
         if input() == 'n': return False
-        else: return 100 #типа код ошибки. Потом разберусь, что с ними можно сделать
+        else: return None
 
-    @staticmethod
-    def bye():
+
+    def bye(self):
         print('Bye!')
 
-    def get_new_note():
+
+    def report(self, status: bool):
+        if status: print('Done!')
+        else: print("Sorry, something has gone wrong. We`ve collected info and are fixing it")
+
+
+    def get_new_note(self):
         return {'header': input("Введите заголовок: "), 'body': input("Введите текст: ")}
+
+
+    def show_note(self, notes: list):
+        print(notes[int(input("Введите номер заметки: "))])

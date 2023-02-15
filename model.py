@@ -1,5 +1,6 @@
 import time
 import csv
+import traceback
 
 """Создание, изменение, удаление заметок как в кэше-списке словарей, так и в самом файле-источнике"""
 class NotesHandler(object):
@@ -10,28 +11,45 @@ class NotesHandler(object):
         self.file_len = len(self.notes)
 
 
-    def read(self):
-        with open(self.file_name, 'r', newline='') as csvfile:
-            reader = csv.DictReader(csvfile, delimiter=';')
-            for row in reader:
-                self.notes.append(row)
-        self.file_len = len(self.notes)
+    def read(self) -> bool:
+        try:
+            with open(self.file_name, 'r', newline='') as csvfile:
+                reader = csv.DictReader(csvfile, delimiter=';')
+                for row in reader:
+                    self.notes.append(row)
+            self.file_len = len(self.notes)
+            return True
+        except:
+            traceback.print_exc(file='log.txt')
+            return False
 
 
-    def save(self):
-        if self.file_len <= len(self.notes):
-            with open(self.file_name, 'w', newline='') as csvfile:
-                fieldnames = ['header', 'body', 'last_modified']
-                writer = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter=";")
-                writer.writeheader()
-                writer.writerows(self.notes)
-        else:
-            with open(self.file_name, 'a', newline='') as csvfile:
-                fieldnames = ['header', 'body', 'last_modified']
-                writer = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter=";")
-                for i in range(self.file_len, len(self.notes)):
-                    writer.writerow(self.notes[i])
+    def save(self) -> bool:
+        try:
+            if self.file_len <= len(self.notes):
+                with open(self.file_name, 'w', newline='') as csvfile:
+                    fieldnames = ['header', 'body', 'last_modified']
+                    writer = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter=";")
+                    writer.writeheader()
+                    writer.writerows(self.notes)
+            else:
+                with open(self.file_name, 'a', newline='') as csvfile:
+                    fieldnames = ['header', 'body', 'last_modified']
+                    writer = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter=";")
+                    for i in range(self.file_len, len(self.notes)):
+                        writer.writerow(self.notes[i])
+            return True
+        except:
+            traceback.print_exc(file='log.txt')
+            return False
 
-    def add(self, content: dict):
-        content |= {'last_modified': f''}
-        self.notes.append(content)
+
+    def add(self, content: dict) -> bool:
+        try:
+            content |= {'last_modified': f'{time.strftime("%Y.%m.%d %H:%M", time.localtime())}'} #я уже знаю, чем мне это грозит. Опять все переделывать, когда дойдет до сортировки по дате. либо как-то заморочитьcя с конвертацией
+            self.notes.append(content)
+            return True
+        except:
+            traceback.print_exc(file='log.txt')
+            return False
+        
