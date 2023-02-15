@@ -1,6 +1,13 @@
 import datetime
 import time
-
 from controller import Control
 
-Control.run('notebook.csv')
+import csv
+with open('eggs.csv', 'w', newline='') as csvfile:
+    spamwriter = csv.writer(csvfile, delimiter=';',
+                            quotechar='|', quoting=csv.QUOTE_MINIMAL)
+    spamwriter.writerow(['|Spam'] * 5 + ['Baked Beans'])
+    spamwriter.writerow(["""Spam
+    Really Spam""", "Not|lovely", 'Wonderful Spam|'])
+
+# Control.run('notebook.csv')
