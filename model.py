@@ -1,26 +1,37 @@
 import time
+import csv
 
-class Note(object):
+"""Создание, изменение, удаление заметок как в кэше-списке словарей, так и в самом файле-источнике"""
+class NotesHandler(object):
 
-    id_base = 0
+    def __init__(self, file_name: str):
+        self.file_name = file_name
+        self.notes = []
+        self.file_len = len(self.notes)
 
-    def __init__(self):
-        self.id = 1
-        self.head = "Заголовок заметки"
-        self.body = "Тело заметки"
-        self.last_modified = time.time() #Дата и время создания или последнего редактирования
 
-    # для удаления заметки хорошо
-    # def __del__(self):
-    #     print('удаляется объект {} класса Worker'.format(self.name))
+    def read(self):
+        with open(self.file_name, 'r', newline='') as csvfile:
+            reader = csv.DictReader(csvfile, delimiter=';')
+            for row in reader:
+                self.notes.append(row)
+        self.file_len = len(self.notes)
 
-    # для сохранения заметки в файл или наоборот показать на экране
-    
-    def __str__(self):
-        return f"""
-Заголовок: {self.head}
-                   
-Текст: {self.body}
-                    
-Изменена: {time.localtime(self.last_edited).tm_mday}.{time.localtime(self.last_edited).tm_mon}.{time.localtime(self.last_edited).tm_year} {time.localtime(self.last_edited).tm_hour}:{time.localtime(self.last_edited).tm_min}
-"""
+
+    def save(self):
+        if self.file_len <= len(self.notes):
+            with open(self.file_name, 'w', newline='') as csvfile:
+                fieldnames = ['header', 'body', 'last_modified']
+                writer = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter=";")
+                writer.writeheader()
+                writer.writerows(self.notes)
+        else:
+            with open(self.file_name, 'a', newline='') as csvfile:
+                fieldnames = ['header', 'body', 'last_modified']
+                writer = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter=";")
+                for i in range(self.file_len, len(self.notes)):
+                    writer.writerow(self.notes[i])
+
+    def add(self, content: dict):
+        content |= {'last_modified': f''}
+        self.notes.append(content)

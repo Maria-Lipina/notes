@@ -16,32 +16,29 @@ read - прочитать заметку под указанным номеро�
 
 class Control(object):
 
-    def run(notes_base: str):
+    def run(file_name: str):
+        notes = model.NotesHandler(file_name)
         notes_cache = []   
         working = True
+        is_saved = True
+        
         # приветствие и: всего в записной книжке len() заметок
         while working:
-            ui.View.show('Введите одну из доступных команд: add, observe, change, delete, exit, manual, save, read')
-            command = input()
+            
+            command = ui.View.get_command()
 
             if command == 'exit':
-                print('Bye!') #потом это все должно переноситься в методы класса ui
                 working = False
-            
+                ui.View.bye()
+                try:
+                    if not is_saved and ui.View.get_confirm(): 
+                        notes.save()
+                except:
+                    ui.View.get_confirm()
+
             if command == 'add':
-                notes_cache.append(model.Note())
-                print(f'{len(notes_cache)} + сколько всего заметок')
-
-
-                notes_cache[len(notes_cache)-1].head = input("Заголовок: ")
                 
-                temp = " "
-                print("Текст: ")
-                while (ord(temp[len(temp)-1]) != 4):
-                    temp = "{in1}\n{in2}".format(
-                        in1=temp, 
-                        in2=input())
-                notes_cache[len(notes_cache)-1].body = temp[:len(temp)-1]
+                notes.add()
 
             if command == 'read':
                 print(notes_cache[int(input("Введите номер заметки: "))-1])
