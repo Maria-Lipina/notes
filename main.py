@@ -3,29 +3,30 @@ import time
 from controller import Control
 
 import csv
-addition = "какая-то строка\r\n"
 
-with open('eggs.csv', 'r+', newline='') as csvfile:
-    content = []
-    spamreader = csv.reader(csvfile, delimiter=';')
-    for row in spamreader:
+addition = {'header':'added by user', 'body':'multiline\note\naas i want', 'last_modified':'12.07.2022 13:30'}
+content = []
+with open('eggs.csv', 'r', newline='') as csvfile:
+    notesreader = csv.DictReader(csvfile, delimiter=';')
+    for row in notesreader:
         content.append(row)
-    # content = csvfile.readlines()
     print(content)
-    print(content[0][1])
-    # with open('notebook.csv', 'a', newline='') as csvfile1:
-    #     for n in content:
-    #         csvfile1.write(n)
-    #     csvfile1.write(addition)
-    #     csvfile1.writelines(content)
+    print(content[1])
+    print(content[1]['body'])
 
 with open('names.csv', 'w', newline='') as csvfile:
-    fieldnames = ['first_name', 'last_name']
+    fieldnames = ['header', 'body', 'last_modified']
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter=";")
-
     writer.writeheader()
-    writer.writerow({'first_name': 'Baked', 'last_name': 'Beans'})
-    writer.writerow({'first_name': 'Lovely', 'last_name': 'Spam'})
-    writer.writerow({'first_name': 'Wonderful', 'last_name': 'Spam'})
+    writer.writerows(content)
 
+with open('names.csv', 'a', newline='') as csvfile:
+    fieldnames = ['header', 'body', 'last_modified']
+    writer = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter=";")
+    writer.writerow(addition)
+
+
+print("\n-----")
+content.append(addition)
+print(content)
 # Control.run('notebook.csv')
