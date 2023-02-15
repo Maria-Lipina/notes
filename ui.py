@@ -10,9 +10,9 @@ class View(object):
 
     
     def get_confirm(self):
-        print('Сохранить изменения в записной книжке? (y\\n)')
-        if input() == 'y': return True
-        if input() == 'n': return False
+        answer = input('Сохранить изменения в записной книжке? (y\\n)' )
+        if answer == 'y': return True
+        if answer == 'n': return False
         else: return None
 
 
@@ -28,6 +28,11 @@ class View(object):
     def get_new_note(self):
         return {'header': input("Введите заголовок: "), 'body': input("Введите текст: ")}
 
+    
+    def get_number(self, notes: list):
+        num = int(input("Введите номер заметки: "))-1
+        if num >= len(notes): self.get_number(notes)
+        else: return num
 
     def show_note(self, notes: list):
-        print(notes[int(input("Введите номер заметки: "))])
+        print(notes[self.get_number(notes)])

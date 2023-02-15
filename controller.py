@@ -21,7 +21,7 @@ class Control(object):
         view = ui.View()
         working = True
         is_saved = True
-        view.hello()
+        view.hello(notes.notes)
 
         while working:
             command = view.get_command()
@@ -32,9 +32,10 @@ class Control(object):
                     if not is_saved and view.get_confirm(): 
                         notes.save()
                         is_saved = True
+                        view.report(is_saved)
                 except:
                     view.get_confirm()
-                view.report()
+                
                 view.bye()
 
             if command == 'add':

@@ -20,7 +20,7 @@ class NotesHandler(object):
             self.file_len = len(self.notes)
             return True
         except:
-            traceback.print_exc(file='log.txt')
+            traceback.print_exc(file=open('log.txt', 'w'))
             return False
 
 
@@ -40,7 +40,7 @@ class NotesHandler(object):
                         writer.writerow(self.notes[i])
             return True
         except:
-            traceback.print_exc(file='log.txt')
+            traceback.print_exc(file=open('log.txt', 'w'))
             return False
 
 
@@ -50,6 +50,6 @@ class NotesHandler(object):
             self.notes.append(content)
             return True
         except:
-            traceback.print_exc(file='log.txt')
+            traceback.print_exc(file=open('log.txt', 'w'))
             return False
         

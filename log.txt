@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "d:\IT\Geekbrains\Промежуточная аттестация 02.23\Python заметки\model.py", line 30, in save
+    with open(self.file_name, 'w', newline='') as csvfile:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: 'notebook.csv'
