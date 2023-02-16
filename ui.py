@@ -31,8 +31,28 @@ class View(object):
     
     def get_number(self, notes: list):
         num = int(input("Введите номер заметки: "))-1
-        if num >= len(notes): self.get_number(notes)
+        if num >= len(notes) or num < 0: self.get_number(notes)
         else: return num
+
 
     def show_note(self, notes: list):
         print(notes[self.get_number(notes)])
+
+
+    def show_notes(self, notes: dict):
+        for note in notes:
+            print(f"header: {note['header']}\nbody: {note['body']}\nlast modified: {note['last_modified']}\n\n")
+
+
+    def show_manual(self):
+        print(
+            """add - добавить заметку
+    observe - посмотреть список заметок в оперативной памяти. Если вы перед этим добавляли, удаляли или изменяли заметки, то все измененния будут видны здесь
+change - отредактировать заметку
+delete - удалить заметку
+exit - выйти из приложения
+manual - руководство по значению команд
+save - сохранить изменения в заметках в долговременную память (файл)
+read - прочитать заметку под указанным номером
+"""
+        )

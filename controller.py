@@ -1,17 +1,7 @@
 import ui
 import model
 
-"""Введите одну из доступных команд: add, observe, change, delete:
-add - добавить заметку
-observe - посмотреть список заметок в памяти
-change - отредактировать заметку
-delete - удалить заметку
-exit - выйти из приложения
-manual - руководство по значению команд
-save - сохранить заметку в файл-базу
-read - прочитать заметку под указанным номером
-"""
-
+"""Класс для gthtlfxb запросов от пользователя другим элементам приложения, в том числе обращения к хранилищу заметок в файле, путь к которому передан под аргументом @file_name"""
 class Control(object):
 
     def run(file_name: str):
@@ -47,6 +37,22 @@ class Control(object):
             if command == 'read':
                 view.show_note(notes.notes)
 
+
             if command == 'save':
                 view.report(notes.save())
-                
+
+            if command == 'change':
+                notes.change(
+                    view.get_number(notes.notes), view.get_new_note()
+                )
+                is_saved = False
+
+            if command == 'delete':
+                notes.delete(view.get_number(notes.notes))
+                is_saved = False
+
+            if command == 'manual':
+                view.show_manual()
+
+            if command == 'observe':
+                view.show_notes(notes.notes)

@@ -53,3 +53,11 @@ class NotesHandler(object):
             traceback.print_exc(file=open('log.txt', 'w'))
             return False
         
+
+    def change(self, index: int, new_note: dict):
+        new_note['last_modified'] = f'{time.strftime("%Y.%m.%d %H:%M", time.localtime())}'
+        self.notes[index] = new_note
+
+
+    def delete(self, index: int):
+        self.notes.pop(index)
