@@ -36,12 +36,13 @@ class View(object):
 
 
     def show_note(self, notes: list):
-        print(notes[self.get_number(notes)])
+        what_note = self.get_number(notes)
+        print(f"id {what_note['id']}. header: {what_note['header']}\nbody: {what_note['body']}\nlast modified: {what_note['last_modified']}\n\n")
 
 
     def show_notes(self, notes: dict):
         for note in notes:
-            print(f"header: {note['header']}\nbody: {note['body']}\nlast modified: {note['last_modified']}\n\n")
+            print(f"id {note['id']}. header: {note['header']}\nbody: {note['body']}\nlast modified: {note['last_modified']}\n\n")
 
 
     def show_manual(self):
