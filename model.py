@@ -47,7 +47,7 @@ class NotesHandler(object):
     def add(self, content: dict) -> bool:
         try:
             self.notes.append({'id': f'{len(self.notes)}'})
-            content |= {'last_modified': f'{time.strftime("%Y.%m.%d %H:%M", time.localtime())}'} #я уже знаю, чем мне это грозит. Опять все переделывать, когда дойдет до сортировки по дате. либо как-то заморочитьcя с конвертацией
+            content |= {'last_modified': f'{time.strftime("%d.%m.%Y %H:%M", time.localtime())}'} #я уже знаю, чем мне это грозит. Опять все переделывать, когда дойдет до сортировки по дате. либо как-то заморочитьcя с конвертацией
             self.notes[len(self.notes)-1] |= content
 
             return True
