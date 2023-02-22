@@ -1,4 +1,5 @@
 class View(object):
+    """Запрашивает у пользователя данные для выполнения команды, показывает отчет о выполнении, приветствие и прощание"""
 
     def hello(self, notes: list):
         print(f"Hello! There are {len(notes)} notes in your notebook")  
@@ -28,19 +29,24 @@ class View(object):
     def get_new_note(self):
         return {'header': input("Введите заголовок: "), 'body': input("Введите текст: ")}
 
+
+    def get_changed_note(self, glossary: dict):
+        id = self.get_id(glossary)
+        return {'id': id, 'header': input("Введите заголовок: "), 'body': input("Введите текст: ")}
+
     
-    def get_number(self, notes: list):
-        num = int(input("Введите номер заметки: "))-1
-        if num >= len(notes) or num < 0: self.get_number(notes)
-        else: return num
+    def get_id(self, glossary: dict):
+        id = input("Введите id заметки: ")
+        if id in glossary.keys(): return id
+        else: return self.get_id(glossary)
 
 
-    def show_note(self, notes: list):
-        what_note = self.get_number(notes)
-        print(f"id {what_note['id']}. header: {what_note['header']}\nbody: {what_note['body']}\nlast modified: {what_note['last_modified']}\n\n")
+    def show_note(self, notes: list, glossary: dict):
+        what_note = self.get_id(glossary)
+        print(f"id {notes[glossary[what_note]]['id']}. header: {notes[glossary[what_note]]['header']}\nbody: {notes[glossary[what_note]]['body']}\nlast modified: {notes[glossary[what_note]]['last_modified']}\n\n")
 
 
-    def show_notes(self, notes: dict):
+    def show_notes(self, notes: list):
         for note in notes:
             print(f"id {note['id']}. header: {note['header']}\nbody: {note['body']}\nlast modified: {note['last_modified']}\n\n")
 
@@ -48,7 +54,7 @@ class View(object):
     def show_manual(self):
         print(
             """add - добавить заметку
-    observe - посмотреть список заметок в оперативной памяти. Если вы перед этим добавляли, удаляли или изменяли заметки, то все измененния будут видны здесь
+observe - посмотреть список заметок в оперативной памяти. Если вы перед этим добавляли, удаляли или изменяли заметки, то все измененния будут видны здесь
 change - отредактировать заметку
 delete - удалить заметку
 exit - выйти из приложения

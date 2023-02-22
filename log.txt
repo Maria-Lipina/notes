@@ -1,9 +1,0 @@
-Traceback (most recent call last):
-  File "d:\IT\Geekbrains\Промежуточная аттестация 02.23\Python заметки\model.py", line 34, in save
-    writer.writerows(self.notes)
-  File "C:\Users\Admin\AppData\Local\Programs\Python\Python311\Lib\csv.py", line 157, in writerows
-    return self.writer.writerows(map(self._dict_to_list, rowdicts))
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Admin\AppData\Local\Programs\Python\Python311\Lib\csv.py", line 149, in _dict_to_list
-    raise ValueError("dict contains fields not in fieldnames: "
-ValueError: dict contains fields not in fieldnames: 'id'

@@ -3,12 +3,12 @@ import model
 
 
 class Control(object):
-    """Класс для передачи запросов от пользователя другим элементам приложения, в том числе обращения к хранилищу заметок в файле, путь к которому передан под аргументом @file_name"""
+    """Обработка запросов от пользователя, делегирование задач другим элементам приложения. Под аргументом file_name передается путь к хранилищу заметок в формате csv"""
 
     def run(file_name: str):
 
         notes = model.NotesHandler(file_name)
-        notes.read()
+        notes.load()
         view = ui.View()
         working = True
         is_saved = True
@@ -21,8 +21,7 @@ class Control(object):
                 working = False
                 try:
                     if not is_saved and view.get_confirm(): 
-                        notes.save()
-                        is_saved = True
+                        is_saved = notes.save()
                         view.report(is_saved)
                 except:
                     view.get_confirm()
@@ -36,24 +35,26 @@ class Control(object):
                 is_saved = False
 
             if command == 'read':
-                view.show_note(notes.notes)
+                view.show_note(notes.notes, notes.glossary)
 
 
             if command == 'save':
-                view.report(notes.save())
+                is_saved = notes.save()
+                view.report(is_saved)
 
             if command == 'change':
-                notes.change(
-                    view.get_number(notes.notes), view.get_new_note()
-                )
+                view.report(notes.change(
+                    view.get_changed_note(notes.glossary)
+                ))
                 is_saved = False
 
             if command == 'delete':
-                notes.delete(view.get_number(notes.notes))
+                view.report(notes.delete(view.get_id(notes.glossary)))
                 is_saved = False
 
             if command == 'manual':
                 view.show_manual()
 
             if command == 'observe':
+                notes.date_sort()
                 view.show_notes(notes.notes)
