@@ -49,7 +49,6 @@ class NotesHandler(object):
             self.notes.append({'id': f'{len(self.notes)}'})
             content |= {'last_modified': f'{time.strftime("%d.%m.%Y %H:%M", time.localtime())}'} #я уже знаю, чем мне это грозит. Опять все переделывать, когда дойдет до сортировки по дате. либо как-то заморочитьcя с конвертацией
             self.notes[len(self.notes)-1] |= content
-
             return True
         except:
             traceback.print_exc(file=open('log.txt', 'w'))
